@@ -1,6 +1,8 @@
 from enum import Enum
 import random
 from typing import List
+from collections import deque
+from queue import Queue
 
 class Sintomas(Enum):
     Politraumatismograve = 0
@@ -81,6 +83,8 @@ class Hospital:
       def __init__(self):
            self.listaPacientes = []
            self.listaEnfermeros = []
+           self.colaPrincipal = Queue()
+           self.colaSecundario = Queue()
       def agregarelemento (self,elemento):
           if isinstance(elemento, Pacientes):
                self.listaPacientes.append(elemento)

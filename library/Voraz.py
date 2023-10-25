@@ -1,4 +1,5 @@
 from Clases import Pacientes
+from Clases import Hospital
 from collections import deque
 from queue import Queue
 
@@ -14,10 +15,9 @@ def asingar_beneficio(Paciente: Pacientes):
     else:
         Paciente.Beneficio =10
 
-def asignar_a_Cola(Paciente: Pacientes):
+def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
     if Paciente.color == "rojo" and  Paciente.color == "naranja":
-        colaPrincipal = deque()
-        colaPrincipal.append(Paciente)
+       Hospital1.colaPrincipal.enqueue(Paciente) #BUSCAR ESTOOOO
         insertion_sort(colaPrincipal)
     else:
         colaSecundaria = deque()
@@ -28,7 +28,7 @@ def asignar_a_Cola(Paciente: Pacientes):
 
 def insertion_sort (colaP:Queue [Pacientes]):
     for j in range(1, len(colaP)):
-        aux = colaP[j]
+        aux: Pacientes = colaP[j]
         
         i = j-1
         while i>= 0 and colaP[i].Beneficio> aux.Beneficio:
