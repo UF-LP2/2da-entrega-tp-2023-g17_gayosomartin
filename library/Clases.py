@@ -1,7 +1,7 @@
 from enum import Enum
 import random
 from typing import List
-from collections import deque
+#from collections import deque
 from queue import Queue
 import time
 
@@ -44,47 +44,48 @@ class Pacientes:
           self.Tiempollegada = time.time()
 
 class Enfermeros:
-     def __init__(self):
+     def __init__(self,name):
           self.Disponible = True #si el medico esta dispoible true y si no false
+          self.name = name
           
           
      def asignarcolor(self, Paciente: Pacientes): #si tenemos lista de sintomas buscamos el numero mas chiquico y usamos ese para asignar color
           self.Disponible = False
+          
           Paciente.atencion = True
 
-          numero_mas_chico = min(self.Paciente.sintomas)
+          numero_mas_chico = min(Paciente.sintomas)   
           if numero_mas_chico == 0:
-               self.Paciente.color = "rojo"
-               self.tiempomax = 0 
-               
-               
+               Paciente.color = "rojo"
+               Paciente.tiempomax = 0 
+                   
 
           elif numero_mas_chico in range(1,5):
-               self.Paciente.color = "naranja"
-               self.tiempomax = 10 #segundos
+               Paciente.color = "naranja"
+               Paciente.tiempomax = 10 #segundos
                
 
           elif numero_mas_chico in range(5,11):
-               self.Paciente.color = "amarillo"
-               self.tiempomax = 60 #segundos
+               Paciente.color = "amarillo"
+               Paciente.tiempomax = 60 #segundos
                
 
           elif numero_mas_chico in range(11,16):
-               self.Paciente.color = "verde"
-               self.tiempomax = 120 #segundos
+               Paciente.color = "verde"
+               Paciente.tiempomax = 120 #segundos
                
           else:
-                self.Paciente.color = "azul"
-                self.tiempomax = 240 #segundos
+                Paciente.color = "azul"
+                Paciente.tiempomax = 240 #segundos
                
-          print("El color del paciente es ", self.Paciente.color)
+          print("El color del paciente es ", Paciente.color)
           self.Disponible = True
 
        
 class Hospital:
       def __init__(self):
-           self.listaPacientes = [Pacientes]
-           self.listaEnfermeros = [Enfermeros]
-           self.colaPrincipal = Queue()
-           self.colaSecundario = Queue()
+           self.listaPacientes = []
+           self.listaEnfermeros = []
+           self.colaPrincipal = []
+           self.colaSecundario = []
      
