@@ -52,9 +52,9 @@ def quick_sort (colaP: List[Pacientes]):
 
         for pac in copia_cola:
             if pac.Beneficio > pivote.Beneficio:
-                mayores.append(pac)
-            else:
                 menores.append(pac)
+            else:
+                mayores.append(pac)
         return( quick_sort(menores) + [pivote] + quick_sort(mayores) )
     
     
