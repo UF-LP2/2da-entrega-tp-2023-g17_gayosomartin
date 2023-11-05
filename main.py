@@ -36,30 +36,35 @@ def main() -> None:
       print("--------------------------------------------------------------------------------------")
       if Hospi.listaEnfermeros[i].Disponible == True:  
         if Hospi.listaPacientes[0].atencion == False:
+          print("Se le asigna color al paciente ",Hospi.listaPacientes[0].Nombre,Hospi.listaPacientes[0].Apellido)
           Hospi.listaEnfermeros[i].asignarcolor(Hospi.listaPacientes[0])
           asingar_beneficio(Hospi.listaPacientes[0])
           asignar_a_Cola(Hospi.listaPacientes[0],Hospi)
 
       if i+1 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+1].Disponible == True:
         if Hospi.listaPacientes[1].atencion == False:
+          print("Se le asigna color al paciente ",Hospi.listaPacientes[1].Nombre,Hospi.listaPacientes[1].Apellido)
           Hospi.listaEnfermeros[i+1].asignarcolor(Hospi.listaPacientes[1])
           asingar_beneficio(Hospi.listaPacientes[1])
           asignar_a_Cola(Hospi.listaPacientes[1],Hospi)
         
       if i+2 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+2].Disponible == True:
         if  Hospi.listaPacientes[2].atencion == False:
+          print("Se le asigna color al paciente ",Hospi.listaPacientes[2].Nombre,Hospi.listaPacientes[2].Apellido)
           Hospi.listaEnfermeros[i+2].asignarcolor(Hospi.listaPacientes[2])
           asingar_beneficio(Hospi.listaPacientes[2])
           asignar_a_Cola(Hospi.listaPacientes[2],Hospi)
         
       if i+3 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+3].Disponible == True:
         if  Hospi.listaPacientes[3].atencion == False:
+          print("Se le asigna color al paciente ",Hospi.listaPacientes[3].Nombre,Hospi.listaPacientes[3].Apellido)
           Hospi.listaEnfermeros[i+3].asignarcolor(Hospi.listaPacientes[3])
           asingar_beneficio(Hospi.listaPacientes[3])
           asignar_a_Cola(Hospi.listaPacientes[3],Hospi)
 
       if i+4 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+4].Disponible == True:
         if  Hospi.listaPacientes[4].atencion == False:
+          print("Se le asigna color al paciente ",Hospi.listaPacientes[4].Nombre,Hospi.listaPacientes[4].Apellido)
           Hospi.listaEnfermeros[i+4].asignarcolor(Hospi.listaPacientes[4])
           asingar_beneficio(Hospi.listaPacientes[4])
           asignar_a_Cola(Hospi.listaPacientes[4],Hospi)

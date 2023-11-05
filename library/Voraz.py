@@ -19,25 +19,35 @@ def asingar_beneficio(Paciente: Pacientes):
 def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
     if Paciente.color == "rojo" or  Paciente.color == "naranja":
        Hospital1.colaPrincipal.append(Paciente) 
-       Hospital1.colaPrincipal = quick_sort(Hospital1.colaPrincipal)
+       Hospital1.colaPrincipal = quick_sort(Hospital1.colaPrincipal)  
 
+       print("El paciente: ",Paciente.Nombre,Paciente.Apellido,"Fue asignado a la cola de prioridad principal")
+
+       print("Cola Principal")
        for pac in range(len(Hospital1.colaPrincipal)):
-           print(Hospital1.colaPrincipal[pac].Nombre, Hospital1.colaPrincipal[pac].color)
+           print(Hospital1.colaPrincipal[pac].Nombre, ", Color: ", Hospital1.colaPrincipal[pac].color)
 
        if Paciente in Hospital1.listaPacientes:
         Hospital1.listaPacientes.remove(Paciente)
+
+        
        
 
     else:
         Hospital1.colaSecundario.append(Paciente) 
         Hospital1.colaSecundario = quick_sort (Hospital1.colaSecundario)
-        
-        for pac in range(len(Hospital1.colaSecundario)):
-           print(Hospital1.colaSecundario[pac].Nombre, Hospital1.colaSecundario[pac].color)
-    
-    if Paciente in Hospital1.listaPacientes:
-        Hospital1.listaPacientes.remove(Paciente)
 
+        print("El paciente: ",Paciente.Nombre,Paciente.Apellido,"Fue asignado a la cola de prioridad secundaria")
+        
+        print("Cola Secundaria")
+        for pac in range(len(Hospital1.colaSecundario)):
+           
+           print(Hospital1.colaSecundario[pac].Nombre,", Color: ", Hospital1.colaSecundario[pac].color)
+    
+        if Paciente in Hospital1.listaPacientes:
+            Hospital1.listaPacientes.remove(Paciente)
+
+       
 
         
 
@@ -94,6 +104,7 @@ def enfermerosdisp(Hospi: Hospital)->int:
         enfer = 3
     else:
         enfer = 0
+    print("La cantidad de anfermeros disponibles es de",enfer)
     return enfer
 
 def atender(Hosp: Hospital):
