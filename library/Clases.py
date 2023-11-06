@@ -57,26 +57,31 @@ class Enfermeros:
           numero_mas_chico = min(Paciente.sintomas)   
           if numero_mas_chico == 0:
                Paciente.color = "rojo"
-               Paciente.tiempomax = 0 
+               Paciente.tiempomax = 1 
+               Paciente.Beneficio = 2
                    
 
           elif numero_mas_chico in range(1,5):
                Paciente.color = "naranja"
                Paciente.tiempomax = 10 #segundos
+               Paciente.Beneficio = 4
                
 
           elif numero_mas_chico in range(5,11):
                Paciente.color = "amarillo"
                Paciente.tiempomax = 60 #segundos
+               Paciente.Beneficio = 6
                
 
           elif numero_mas_chico in range(11,16):
                Paciente.color = "verde"
                Paciente.tiempomax = 120 #segundos
+               Paciente.Beneficio = 8
                
           else:
                 Paciente.color = "azul"
                 Paciente.tiempomax = 240 #segundos
+                Paciente.Beneficio = 10
                
           print("El color del paciente es ", Paciente.color)
           self.Disponible = True

@@ -4,7 +4,7 @@ import pytest
 
 def test_ColorNaranja():
     Paciente = Pacientes("Maria","Fres","34789765",[1,8,5])
-    Enfermero = Enfermeros()
+    Enfermero = Enfermeros("Enf")
     Enfermero.asignarcolor(Paciente)
     assert Paciente.color == "naranja"
 
@@ -19,6 +19,13 @@ def test_Tiempo():
     Paciente = Pacientes("Maria","Fres","34789765",[0,8,5])
     Enfermero = Enfermeros("luis")
     Enfermero.asignarcolor(Paciente)
-    assert Paciente.tiempomax == 0
+    assert Paciente.tiempomax == 1
+
+def test_Beneficio():
+ Paciente = Pacientes("Maria","Fres","34789765",[0,8,5])
+ Enfermero = Enfermeros("luis")
+ Enfermero.asignarcolor(Paciente)
+ assert Paciente.Beneficio == 2
+    
 
     
