@@ -61,7 +61,7 @@ def enfermerosdisp(Hospi: Hospital)->int:
     
     tiempo = time.localtime()  
     enfer:int
-    if  23<=tiempo.tm_hour<6:
+    if  23==tiempo.tm_hour or 0<=tiempo.tm_hour<6:
         Hospi.listaEnfermeros[0].Disponible = True
         Hospi.listaEnfermeros[1].Disponible = False
         Hospi.listaEnfermeros[2].Disponible = False

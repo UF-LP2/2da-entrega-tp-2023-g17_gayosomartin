@@ -1,9 +1,7 @@
 from enum import Enum
-import random
 from typing import List
-#from collections import deque
-from queue import Queue
 import time
+
 
 class Sintomas(Enum):
     Politraumatismograve = 0
@@ -53,13 +51,15 @@ class Enfermeros:
           self.Disponible = False
           
           Paciente.atencion = True
+          
+          
 
           numero_mas_chico = min(Paciente.sintomas)   
           if numero_mas_chico == 0:
                Paciente.color = "rojo"
                Paciente.tiempomax = 1 
                Paciente.Beneficio = 2
-                   
+               
 
           elif numero_mas_chico in range(1,5):
                Paciente.color = "naranja"
@@ -85,6 +85,8 @@ class Enfermeros:
                
           print("El color del paciente es ", Paciente.color)
           self.Disponible = True
+          
+          
 
        
 class Hospital:

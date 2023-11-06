@@ -1,15 +1,18 @@
-from library.Clases import Pacientes
+
 from library.Clases import Enfermeros
 from library.Clases import Hospital
-from library.Clases import Sintomas
 from library.Funciones import enfermerosdisp
 from library.Funciones import asignar_a_Cola
 from library.Funciones import LecturaArch
 from library.Funciones import atender
 from library.Funciones import Calcular_Tiempo
-import time
+import sys
+from PyQt6.QtWidgets import QApplication
+from library.interfaz_2 import MainWindow
+
 
 def main() -> None:
+  app = QApplication(sys.argv)
  #funcion crear hosp 
   Hospi = Hospital()
   LecturaArch(Hospi)
@@ -23,8 +26,6 @@ def main() -> None:
   Hospi.listaEnfermeros.append(Enf3)
   Hospi.listaEnfermeros.append(Enf4)
   Hospi.listaEnfermeros.append(Enf5)
-
-  
 
   #funcion que lee el archivo de paciente y los va agregando a la lista general 
   
@@ -64,21 +65,23 @@ def main() -> None:
           Hospi.listaEnfermeros[i+4].asignarcolor(Hospi.listaPacientes[4])
           asignar_a_Cola(Hospi.listaPacientes[4],Hospi)
       
+      
+
+      mainWin = MainWindow(Hospi.colaPrincipal)
+
+
     print("--------------------------------------------------------------------------------------")
     
     Calcular_Tiempo(Hospi)
     atender(Hospi)
     atender(Hospi)
-    
-  
-  
 
   while(len(Hospi.colaSecundario)!= 0 or len(Hospi.colaPrincipal)!= 0 ):
     Calcular_Tiempo(Hospi)
     atender(Hospi)
     atender(Hospi)
-    
 
+  sys.exit(app.exec())
 
 if __name__ == "__main__":
   main()
