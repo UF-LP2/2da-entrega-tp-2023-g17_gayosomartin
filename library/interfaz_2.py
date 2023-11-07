@@ -1,5 +1,6 @@
 import tkinter as tk
-from library.Clases import Pacientes
+from tkinter import font
+import time
 from library.Clases import Enfermeros
 from library.Clases import Hospital
 from library.Funciones import enfermerosdisp
@@ -9,23 +10,25 @@ from library.Funciones import atender
 from library.Funciones import Calcular_Tiempo
 
 # Le ponemos segun el color del paciente como se deberia pintar el cuadrado
-colores = {"rojo": "#FF0000", "naranja": "#FFA500", "amarillo": "#FFFF00", "verde": "#008000", "azul": "#0000FF"}
+colores = {"rojo": "#FF0000", "naranja": "#FFA500", "amarillo": "#FFFF00", "verde": "#17E60C", "azul": "#1E75FF"}
 
 root = tk.Tk()
+
 root.title("Simulación de Triage")
+
 
 canvas = tk.Canvas(root, width=1000, height=600)
 canvas.pack()
 
 #Creamos la interfaaz para ver pacientes atendidos
-def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1):
+def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1,contenfer):
     
     root = tk.Tk()
     root.geometry("800x600")  # tamaño de la ventana
     canvas = tk.Canvas(root)
     canvas.pack(fill=tk.BOTH, expand=True)
     global sala_espera, conslutorio1, conssultorio2, consultorio3, consultorio4,pacientern,otrosp
-    
+    root.wm_state('zoomed')
     
 
     # tamaño y posición de la sala de espera
@@ -38,21 +41,22 @@ def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1):
     
     rojo_Nar_pacientes = [paciente for paciente in pacientes if paciente.color in ["rojo", "naranja"]]
     otros_pacientes = [paciente for paciente in pacientes if paciente.color in ["amarillo", "verde", "azul"]]
-
-    # pacientes rojos y naranjas
+    
+    canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 20, text="Cola Prioridad Principal", font=("Arial", 14), anchor=tk.CENTER)
     for i, paciente in enumerate(rojo_Nar_pacientes):
-        x_offset = (i % 6) * 80  #  espacio horizontal entre los grupos(rojo/naranjas y los otros)
-        y_offset = (i // 6) * 80  # espacio vertical entre los grupos
-        pacientern =canvas.create_rectangle(sala_de_espera_x1 + 20 + x_offset, sala_de_espera_y1 + 20 + y_offset, sala_de_espera_x1 + 70 + x_offset, sala_de_espera_y1 + 70 + y_offset, fill=colores[paciente.color], width=0)
-        canvas.create_text(sala_de_espera_x1 + 45 + x_offset, sala_de_espera_y1 + 45 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
+        x_offset = (i % 10) * 70  #  espacio horizontal entre los grupos(rojo/naranjas y los otros)
+        y_offset = (i // 10) * 50 +50  # espacio vertical entre los grupos
+        pacientern =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 10 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 50 + y_offset, fill=colores[paciente.color], width=0)
+        canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 30 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
         
+    canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 220, text="Cola Prioridad Secundaria", font=("Arial", 14), anchor=tk.CENTER)
 
     # pacientes amarillos, verdes y azules
     for i, paciente in enumerate(otros_pacientes):
-        x_offset = (i % 6) * 80  
-        y_offset = (i // 6) * 80  
-        otrosp =canvas.create_rectangle(sala_de_espera_x1 + 20 + x_offset, sala_de_espera_y1 + 270 + y_offset, sala_de_espera_x1 + 70 + x_offset, sala_de_espera_y1 + 320 + y_offset, fill=colores[paciente.color], width=0)
-        canvas.create_text(sala_de_espera_x1 + 45 + x_offset, sala_de_espera_y1 + 295 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
+        x_offset = (i % 10) * 70  
+        y_offset = (i // 10) * 60 + 50
+        otrosp =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 200 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 240 + y_offset, fill=colores[paciente.color], width=0)
+        canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 220 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
         
  
     #consultorio 1
@@ -71,7 +75,11 @@ def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1):
     consultorio4 =canvas.create_rectangle(1150,350,1500,750)
     canvas.create_text(1325,420, text=f"Consultorio 4")
     canvas.create_text(1325,550, text=f"La cantidad de pacientes atendidos en este consultorio fue de: {c4}")
-    canvas.create_text(50,650, text=f"La cantidad de muertos fue: {k1}")
+    font_del_Texto1 = font.Font(family= "Arial",size=20)
+    canvas.create_text(150,650, text=f" La cantidad de muertos fue: {k1}",font = font_del_Texto1)
+    Hora_Actual = time.localtime()
+    font_del_Texto2 = font.Font(family= "Arial",size=30)
+    canvas.create_text(300,730, text=f" La hora actual es : {Hora_Actual.tm_hour} :{Hora_Actual.tm_min}, por lo que la cantidad de medicos es de {contenfer}",font = font_del_Texto2)
 
 
 
@@ -167,20 +175,20 @@ def funcion_antencio_pacientes():
     #Consutorio 4
     cont4 = cont4 + atender(Hospi)
 
-  Mostrar_Paciente(Hospi.colaAux,cont1,cont2,cont3,cont4,Muertos) 
+  
+  root.state('iconic')  # Para Minimiza la ventana principal
+  Mostrar_Paciente(Hospi.colaAux,cont1,cont2,cont3,cont4,Muertos,contEnfermeros) 
+  
 
 
-def detener_simulacion():
-    canvas.delete("all")
+
    
 
 
 
 iniciar_button = tk.Button(root, text="Iniciar Simulación", command=funcion_antencio_pacientes)
-iniciar_button.pack(side=tk.TOP)
+iniciar_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-detener_button = tk.Button(root, text="Detener Simulación", command=detener_simulacion)
-detener_button.pack(side=tk.TOP)
 
 root.mainloop()
 
