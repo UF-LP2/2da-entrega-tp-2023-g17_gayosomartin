@@ -11,6 +11,7 @@ def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
        Hospital1.colaPrincipal.append(Paciente) 
        Hospital1.colaPrincipal = quick_sort(Hospital1.colaPrincipal)  
 
+        #esta cola auxiliar la utilizamos apra mostrar en la interfaz
        Hospital1.colaAux.append(Paciente)
        Hospital1.colaAux = quick_sort(Hospital1.colaAux)  
 
@@ -102,21 +103,24 @@ def enfermerosdisp(Hospi: Hospital)->int:
     print("La cantidad de anfermeros disponibles es de",enfer)
     return enfer
 
-def atender(Hosp: Hospital):
+def atender(Hosp: Hospital)->int:
 
     if (len(Hosp.colaPrincipal)!= 0):
         print(Hosp.colaPrincipal[0].Nombre,"atendido")
         Hosp.colaPrincipal.remove(Hosp.colaPrincipal[0])
+        return 1
         
     elif(len(Hosp.colaSecundario)!= 0):
         print(Hosp.colaSecundario[0].Nombre,"atendido")
         Hosp.colaSecundario.remove(Hosp.colaSecundario[0])
+        return 1
     else:
        print("No hay pacientes")
+       return 0
 
 def LecturaArch(Hosp: Hospital):
     
-    with open(r"Pacientes.csv") as file:
+    with open(r"Prueba_Pac.csv") as file:
         reader  = csv.reader(file)
         for row in reader:
             nombre = row[0]
@@ -128,7 +132,7 @@ def LecturaArch(Hosp: Hospital):
     return Hosp.listaPacientes
 
 
-def Calcular_Tiempo(Hospi:Hospital):
+def Calcular_Tiempo(Hospi:Hospital)->int:
     #if len(Hospi.colaPrincipal) != 0 :
     for p in range(len(Hospi.colaPrincipal)):
         if p < len(Hospi.colaPrincipal):
@@ -141,8 +145,10 @@ def Calcular_Tiempo(Hospi:Hospital):
             if tiempo_transcurrido > Hospi.colaPrincipal[p].tiempomax:
                 print("murio")
                 Hospi.colaPrincipal.remove(Hospi.colaPrincipal[p])
+                return 1 # este return lo hacemos para saber cuanta gente murio
             else:
                 print("todavia vive")
+                return 0
 
     print("--------------------------------------------------------------------------------------")
 
@@ -158,8 +164,14 @@ def Calcular_Tiempo(Hospi:Hospital):
         if tiempo_que_queda <= 10:
             Hospi.colaSecundario[k].color = "naranja"
             asignar_a_Cola(Hospi.colaSecundario[k],Hospi)
+            Hospi.colaSecundario.remove(Hospi.colaSecundario[k])
+            return 0
         else:
             print("todavia vive")
+            return 0
 
-    print("--------------------------------------------------------------------------------------")
+    print("----------------------------------------------------------------------------------- ---")
+
+
+
 
