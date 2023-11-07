@@ -3,11 +3,13 @@ from tkinter import font
 import time
 from library.Clases import Enfermeros
 from library.Clases import Hospital
-#from library.Funciones import enfermerosdisp
+from library.Clases import Pacientes
+from library.Funciones import enfermerosdisp
 from library.Funciones import asignar_a_Cola
 from library.Funciones import LecturaArch
 from library.Funciones import atender
 from library.Funciones import Calcular_Tiempo
+from library.Funciones import quick_sort
 
 # Le ponemos segun el color del paciente como se deberia pintar el cuadrado
 colores = {"rojo": "#FF0000", "naranja": "#FFA500", "amarillo": "#FFFF00", "verde": "#17E60C", "azul": "#1E75FF"}
@@ -21,7 +23,7 @@ canvas = tk.Canvas(root, width=1000, height=600)
 canvas.pack()
 
 #Creamos la interfaaz para ver pacientes atendidos
-def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1,contenfer):
+def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1,contenfer, canvas):
     
     root = tk.Tk()
     root.geometry("800x600")  # tamaño de la ventana
@@ -29,34 +31,38 @@ def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1,contenfer):
     canvas.pack(fill=tk.BOTH, expand=True)
     global sala_espera, conslutorio1, conssultorio2, consultorio3, consultorio4,pacientern,otrosp
     root.wm_state('zoomed')
-    
+    canvas.delete("all")
 
     # tamaño y posición de la sala de espera
     sala_de_espera_x1 = 50
     sala_de_espera_y1 = 50
     sala_de_espera_x2 = 750
     sala_de_espera_y2 = 550
+    consultorio_x1 = 800
+    consultorio_x2 = 1150
+    consultorio_y1 = 50
+    consultorio_y2 = 400
     sala_espera =canvas.create_rectangle(sala_de_espera_x1, sala_de_espera_y1, sala_de_espera_x2, sala_de_espera_y2, outline="black", width=2)
 
-    
-    rojo_Nar_pacientes = [paciente for paciente in pacientes if paciente.color in ["rojo", "naranja"]]
-    otros_pacientes = [paciente for paciente in pacientes if paciente.color in ["amarillo", "verde", "azul"]]
-    
-    canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 20, text="Cola Prioridad Principal", font=("Arial", 14), anchor=tk.CENTER)
-    for i, paciente in enumerate(rojo_Nar_pacientes):
-        x_offset = (i % 10) * 70  #  espacio horizontal entre los grupos(rojo/naranjas y los otros)
-        y_offset = (i // 10) * 50 +50  # espacio vertical entre los grupos
-        pacientern =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 10 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 50 + y_offset, fill=colores[paciente.color], width=0)
-        canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 30 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
-        
-    canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 220, text="Cola Prioridad Secundaria", font=("Arial", 14), anchor=tk.CENTER)
 
-    # pacientes amarillos, verdes y azules
-    for i, paciente in enumerate(otros_pacientes):
-        x_offset = (i % 10) * 70  
-        y_offset = (i // 10) * 60 + 50
-        otrosp =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 200 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 240 + y_offset, fill=colores[paciente.color], width=0)
-        canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 220 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
+    # rojo_Nar_pacientes = [paciente for paciente in pacientes if paciente.color in ["rojo", "naranja"]]
+    # otros_pacientes = [paciente for paciente in pacientes if paciente.color in ["amarillo", "verde", "azul"]]
+    
+    # canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 20, text="Cola Prioridad Principal", font=("Arial", 14), anchor=tk.CENTER)
+    # for i, paciente in enumerate(rojo_Nar_pacientes):
+    #     x_offset = (i % 10) * 70  #  espacio horizontal entre los grupos(rojo/naranjas y los otros)
+    #     y_offset = (i // 10) * 50 +50  # espacio vertical entre los grupos
+    #     pacientern =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 10 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 50 + y_offset, fill=colores[paciente.color], width=0)
+    #     canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 30 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
+        
+    # canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 220, text="Cola Prioridad Secundaria", font=("Arial", 14), anchor=tk.CENTER)
+
+    # # pacientes amarillos, verdes y azules
+    # for i, paciente in enumerate(otros_pacientes):
+    #     x_offset = (i % 10) * 70  
+    #     y_offset = (i // 10) * 60 + 50
+    #     otrosp =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 200 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 240 + y_offset, fill=colores[paciente.color], width=0)
+    #     canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 220 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
         
  
     #consultorio 1
@@ -75,17 +81,52 @@ def Mostrar_Paciente(pacientes,c1,c2,c3,c4,k1,contenfer):
     consultorio4 =canvas.create_rectangle(1150,350,1500,750)
     canvas.create_text(1325,420, text=f"Consultorio 4")
     canvas.create_text(1325,550, text=f"La cantidad de pacientes atendidos en este consultorio fue de: {c4}")
-    font_del_Texto1 = font.Font(family= "Arial",size=20)
-    canvas.create_text(150,650, text=f" La cantidad de muertos fue: {k1}",font = font_del_Texto1)
+    #font_del_Texto1 = font.Font(family= "Arial",size=20)
+    #canvas.create_text(150,650, text=f" La cantidad de muertos fue: {k1}",font = font_del_Texto1)
     Hora_Actual = time.localtime()
     font_del_Texto2 = font.Font(family= "Arial",size=30)
     canvas.create_text(300,730, text=f" La hora actual es : {Hora_Actual.tm_hour} :{Hora_Actual.tm_min}, por lo que la cantidad de medicos es de {contenfer}",font = font_del_Texto2)
 
+    
+    def mostrar_paciente_progresivamente(index):
+      if index < len(pacientes):
+        paciente = pacientes[index]
+        x_offset = (index % 10)*70
+        y_offset = (index // 10)*50+50
+
+        pacientern = canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 10 + y_offset,sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1+50+y_offset, fill=colores[paciente.color], width=0)
+        canvas.create_text(sala_de_espera_x1+30+x_offset, sala_de_espera_y1 + 30 + y_offset,
+                text=f"{paciente.Nombre}", anchor = tk.CENTER )
+        root.update()
+        time.sleep(1)
+
+        canvas.after(100, mostrar_paciente_progresivamente, index+1)
+      else:
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 20,text=f"Cantidad de pacientes atendidos en Consultorio 1: {c1}", anchor=tk.W)
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 40,text=f"Cantidad de pacientes atendidos en Consultorio 2: {c2}", anchor=tk.W)
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 60,text=f"Cantidad de pacientes atendidos en Consultorio 3: {c3}", anchor=tk.W )
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 80,text=f"Cantidad de pacientes atendidos en Consultorio 4: {c4}", anchor=tk.W)
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 100,text=f"Cantidad de pacientes fallecidos: {k1}", anchor=tk.W )
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 120,text=f"Hora actual: {Hora_Actual.tm_hour}:{Hora_Actual.tm_min}", anchor=tk.W)
+        canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 140,text=f"Cantidad de enfermeros disponibles: {contenfer}", anchor=tk.W)
+    
+    mostrar_paciente_progresivamente(0)    
+
+    canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 20,text=f"Cantidad de pacientes atendidos en Consultorio 1: {c1}", anchor=tk.W)
+    canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 40,text=f"Cantidad de pacientes atendidos en Consultorio 2: {c2}", anchor=tk.W)
+    canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 60,
+        text=f"Cantidad de pacientes atendidos en Consultorio 3: {c3}", anchor=tk.W)
+    canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 80,text=f"Cantidad de pacientes atendidos en Consultorio 4: {c4}", anchor=tk.W)
+    canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 100,text=f"Cantidad de pacientes fallecidos: {k1}", anchor=tk.W)
+    canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 120,text=f"Hora actual: {Hora_Actual.tm_hour}:{Hora_Actual.tm_min}", anchor=tk.W)
+    canvas.create_text(
+        sala_de_espera_x1, sala_de_espera_y2 + 140,
+        text=f"Cantidad de enfermeros disponibles: {contenfer}", anchor=tk.W)
 
 
     
 
-       
+
 def funcion_antencio_pacientes():
    
   Hospi = Hospital()
@@ -129,24 +170,27 @@ def funcion_antencio_pacientes():
           print("Se le asigna color al paciente ",Hospi.listaPacientes[1].Nombre,Hospi.listaPacientes[1].Apellido)
           Hospi.listaEnfermeros[i+1].asignarcolor(Hospi.listaPacientes[1])
           asignar_a_Cola(Hospi.listaPacientes[1],Hospi)
-        
+          
       if len(Hospi.listaPacientes) > 2 and i+2 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+2].Disponible == True:
         if  Hospi.listaPacientes[2].atencion == False:
           print("Se le asigna color al paciente ",Hospi.listaPacientes[2].Nombre,Hospi.listaPacientes[2].Apellido)
           Hospi.listaEnfermeros[i+2].asignarcolor(Hospi.listaPacientes[2])
           asignar_a_Cola(Hospi.listaPacientes[2],Hospi)
+          
         
       if len(Hospi.listaPacientes) > 4 and i+3 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+3].Disponible == True:
         if  Hospi.listaPacientes[3].atencion == False:
           print("Se le asigna color al paciente ",Hospi.listaPacientes[3].Nombre,Hospi.listaPacientes[3].Apellido)
           Hospi.listaEnfermeros[i+3].asignarcolor(Hospi.listaPacientes[3])
           asignar_a_Cola(Hospi.listaPacientes[3],Hospi)
+          
 
       if len(Hospi.listaPacientes) > 5 and i+4 < len(Hospi.listaEnfermeros) and Hospi.listaEnfermeros[i+4].Disponible == True:
         if  Hospi.listaPacientes[4].atencion == False:
           print("Se le asigna color al paciente ",Hospi.listaPacientes[4].Nombre,Hospi.listaPacientes[4].Apellido)
           Hospi.listaEnfermeros[i+4].asignarcolor(Hospi.listaPacientes[4])
           asignar_a_Cola(Hospi.listaPacientes[4],Hospi)
+          
 
     
     print("--------------------------------------------------------------------------------------")
@@ -159,10 +203,6 @@ def funcion_antencio_pacientes():
     #Consultorio 2
     #Los cont son para saber la cantidad de gente que se atendio en cada consultorio
     cont2 = cont2 + atender(Hospi)
-
-    
-    
-  
     
     # este while esta hecho para cuando ya todos los pacientes tiene un color asignado por lo cual ya no estan
     # en la lista general pero todavia quedan pacientes sin atender en las colas
@@ -177,7 +217,7 @@ def funcion_antencio_pacientes():
 
   
   root.state('iconic')  # Para Minimiza la ventana principal
-  Mostrar_Paciente(Hospi.colaAux,cont1,cont2,cont3,cont4,Muertos,contEnfermeros) 
+  Mostrar_Paciente(Hospi.colaAux,cont1,cont2,cont3,cont4,Muertos,contEnfermeros, canvas) 
   
 
 
@@ -191,11 +231,4 @@ iniciar_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
 root.mainloop()
-
-
-
-
-
-
-
 

@@ -1,6 +1,7 @@
 from library.Clases import Pacientes
 from library.Clases import Hospital
 from typing import List
+from tkinter import Tk
 import time
 import csv
 
@@ -14,7 +15,7 @@ def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
         #esta cola auxiliar la utilizamos apra mostrar en la interfaz
        Hospital1.colaAux.append(Paciente)
        Hospital1.colaAux = quick_sort(Hospital1.colaAux)  
-
+        
        print("El paciente: ",Paciente.Nombre,Paciente.Apellido,"Fue asignado a la cola de prioridad principal")
 
        print("Cola Principal")
@@ -39,7 +40,7 @@ def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
     
         if Paciente in Hospital1.listaPacientes:
          Hospital1.listaPacientes.remove(Paciente)
-
+    
        
 
         
