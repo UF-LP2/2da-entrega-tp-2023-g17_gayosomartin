@@ -6,8 +6,8 @@ from library.Funciones import asignar_a_Cola
 from library.Funciones import LecturaArch
 from library.Funciones import atender
 from library.Funciones import Calcular_Tiempo
-from library.interfaz_2 import colors
-from library.interfaz_2 import draw_squares
+from library.interfaz_2 import colores
+from library.interfaz_2 import Mostrar_Paciente
 
 
 
