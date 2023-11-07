@@ -11,6 +11,9 @@ def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
        Hospital1.colaPrincipal.append(Paciente) 
        Hospital1.colaPrincipal = quick_sort(Hospital1.colaPrincipal)  
 
+       Hospital1.colaAux.append(Paciente)
+       Hospital1.colaAux = quick_sort(Hospital1.colaAux)  
+
        print("El paciente: ",Paciente.Nombre,Paciente.Apellido,"Fue asignado a la cola de prioridad principal")
 
        print("Cola Principal")
@@ -23,6 +26,9 @@ def asignar_a_Cola(Paciente: Pacientes, Hospital1: Hospital):
     else:
         Hospital1.colaSecundario.append(Paciente) 
         Hospital1.colaSecundario = quick_sort (Hospital1.colaSecundario)
+
+        Hospital1.colaAux.append(Paciente)
+        Hospital1.colaAux = quick_sort(Hospital1.colaAux)  
 
         print("El paciente: ",Paciente.Nombre,Paciente.Apellido,"Fue asignado a la cola de prioridad secundaria")
         print("Cola Secundaria")
@@ -110,7 +116,7 @@ def atender(Hosp: Hospital):
 
 def LecturaArch(Hosp: Hospital):
     
-    with open(r"Prueba_Pac.csv") as file:
+    with open(r"Pacientes.csv") as file:
         reader  = csv.reader(file)
         for row in reader:
             nombre = row[0]
@@ -123,34 +129,37 @@ def LecturaArch(Hosp: Hospital):
 
 
 def Calcular_Tiempo(Hospi:Hospital):
+    #if len(Hospi.colaPrincipal) != 0 :
     for p in range(len(Hospi.colaPrincipal)):
-      print(Hospi.colaPrincipal[p].Nombre,Hospi.colaPrincipal[p].color, Hospi.colaPrincipal[p].Tiempollegada,Hospi.colaPrincipal[p].tiempomax)
-      tiempo_actual = time.time()
-      tiempo_transcurrido = tiempo_actual - Hospi.colaPrincipal[p].Tiempollegada    
-      print(tiempo_transcurrido)
-      tiempo_que_queda = Hospi.colaPrincipal[p].tiempomax - tiempo_transcurrido
-      print(tiempo_que_queda)
-      if tiempo_transcurrido > Hospi.colaPrincipal[p].tiempomax:
-        print("murio")
-        Hospi.colaPrincipal.remove(Hospi.colaPrincipal[p])
-      else:
-        print("todavia vive")
+        if p < len(Hospi.colaPrincipal):
+            print(Hospi.colaPrincipal[p].Nombre,Hospi.colaPrincipal[p].color, Hospi.colaPrincipal[p].Tiempollegada,Hospi.colaPrincipal[p].tiempomax)
+            tiempo_actual = time.time()
+            tiempo_transcurrido = tiempo_actual - Hospi.colaPrincipal[p].Tiempollegada    
+            print(tiempo_transcurrido)
+            tiempo_que_queda = Hospi.colaPrincipal[p].tiempomax - tiempo_transcurrido
+            print(tiempo_que_queda)
+            if tiempo_transcurrido > Hospi.colaPrincipal[p].tiempomax:
+                print("murio")
+                Hospi.colaPrincipal.remove(Hospi.colaPrincipal[p])
+            else:
+                print("todavia vive")
 
     print("--------------------------------------------------------------------------------------")
 
     
     for k in range(len(Hospi.colaSecundario)):
-      print(Hospi.colaSecundario[k].Nombre,Hospi.colaSecundario[k].color, Hospi.colaSecundario[k].Tiempollegada,Hospi.colaSecundario[k].tiempomax)
-      tiempo_actual = time.time()
-      tiempo_transcurrido = tiempo_actual - Hospi.colaSecundario[k].Tiempollegada 
-      print(tiempo_transcurrido) 
-      tiempo_que_queda = Hospi.colaSecundario[k].tiempomax - tiempo_transcurrido 
-      print(tiempo_que_queda)
-      if tiempo_que_queda <= 10:
-        Hospi.colaSecundario[k].color = "naranja"
-        asignar_a_Cola(Hospi.colaSecundario[k],Hospi)
-      else:
-        print("todavia vive")
+      if k < len(Hospi.colaSecundario):
+        print(Hospi.colaSecundario[k].Nombre,Hospi.colaSecundario[k].color, Hospi.colaSecundario[k].Tiempollegada,Hospi.colaSecundario[k].tiempomax)
+        tiempo_actual = time.time()
+        tiempo_transcurrido = tiempo_actual - Hospi.colaSecundario[k].Tiempollegada 
+        print(tiempo_transcurrido) 
+        tiempo_que_queda = Hospi.colaSecundario[k].tiempomax - tiempo_transcurrido 
+        print(tiempo_que_queda)
+        if tiempo_que_queda <= 10:
+            Hospi.colaSecundario[k].color = "naranja"
+            asignar_a_Cola(Hospi.colaSecundario[k],Hospi)
+        else:
+            print("todavia vive")
 
     print("--------------------------------------------------------------------------------------")
 

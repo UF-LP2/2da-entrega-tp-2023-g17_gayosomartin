@@ -94,5 +94,7 @@ class Hospital:
            self.listaPacientes = []
            self.listaEnfermeros = []
            self.colaPrincipal = []
+           self.colaAux = [] #la usamos para la interfaz
            self.colaSecundario = []
+           
      
