@@ -1,7 +1,6 @@
 from library.Clases import Pacientes
 from library.Clases import Hospital
 from typing import List
-from tkinter import Tk
 import time
 import csv
 
