@@ -57,7 +57,7 @@ class Enfermeros:
           numero_mas_chico = min(Paciente.sintomas)   
           if numero_mas_chico == 0:
                Paciente.color = "rojo"
-               Paciente.tiempomax = 1 
+               Paciente.tiempomax = 4 #pusimos de tiempo maximo esto por la interfaz ya que al tardar mas tiempo el programa si ponemos menos tiempo no llegan a aser atendidos
                Paciente.Beneficio = 2
                
 

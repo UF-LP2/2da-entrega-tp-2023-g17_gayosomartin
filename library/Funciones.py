@@ -100,7 +100,7 @@ def enfermerosdisp(Hospi: Hospital)->int:
     else:
         enfer = 0
 
-    print("La cantidad de anfermeros disponibles es de",enfer)
+    print("La cantidad de Enfermeros disponibles es de",enfer)
     return enfer
 
 def atender(Hosp: Hospital)->int:
@@ -133,7 +133,6 @@ def LecturaArch(Hosp: Hospital):
 
 
 def Calcular_Tiempo(Hospi:Hospital)->int:
-    #if len(Hospi.colaPrincipal) != 0 :
     for p in range(len(Hospi.colaPrincipal)):
         if p < len(Hospi.colaPrincipal):
             print(Hospi.colaPrincipal[p].Nombre,Hospi.colaPrincipal[p].color, Hospi.colaPrincipal[p].Tiempollegada,Hospi.colaPrincipal[p].tiempomax)

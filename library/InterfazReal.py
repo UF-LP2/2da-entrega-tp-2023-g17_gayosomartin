@@ -43,32 +43,35 @@ def Mostrar_Paciente(pacientesRN, pacientesO,c1,c2,c3,c4,k1,contenfer, canvas):
 
 
    
-  Hora_Actual = time.localtime()
-  font_del_Texto2 = font.Font(family= "Arial",size=30)
-  canvas.create_text(300,730, text=f" La hora actual es : {Hora_Actual.tm_hour} :{Hora_Actual.tm_min}, por lo que la cantidad de medicos es de {contenfer}",font = font_del_Texto2)
+  
+  #canvas.create_text(300,730, text=f" La hora actual es : {Hora_Actual.tm_hour} :{Hora_Actual.tm_min}, por lo que la cantidad de medicos es de {contenfer}",font = font_del_Texto2)
   mostrar_paciente_progresivamente(0, sala_de_espera_x1, sala_de_espera_x2, sala_de_espera_y1, sala_de_espera_y2, pacientesRN, pacientesO, c1,c2,c3,c4,k1,contenfer)
     
 def mostrar_paciente_progresivamente(index, sala_de_espera_x1, sala_de_espera_x2, sala_de_espera_y1, sala_de_espera_y2, pacientesRN, pacientesO, c1,c2,c3,c4,k1,contenfer):
+  Hora_Actual = time.localtime()
+  font_del_Texto2 = font.Font(family= "Arial",size=30)
+
   if index < len(pacientesRN) or index < len(pacientesO):
     rojo_Nar_pacientes = [paciente for paciente in pacientesRN if paciente.color in ["rojo", "naranja"]]
     otros_pacientes = [paciente for paciente in pacientesO if paciente.color in ["amarillo", "verde", "azul"]]
-    canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 20, text="Cola Prioridad Principal", font=("Arial", 14), anchor=tk.CENTER)
+    
     for i, paciente in enumerate(rojo_Nar_pacientes):
       x_offset = (i % 10) * 70  #  espacio horizontal entre los grupos(rojo/naranjas y los otros)
       y_offset = (i // 10) * 50 +50  # espacio vertical entre los grupos
       pacientern =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 10 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 50 + y_offset, fill=colores[paciente.color], width=0)
       canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 30 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
             
-      canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 220, text="Cola Prioridad Secundaria", font=("Arial", 14), anchor=tk.CENTER)
-
+     
        # pacientes amarillos, verdes y azules
     for i, paciente in enumerate(otros_pacientes):
       x_offset = (i % 10) * 70  
       y_offset = (i // 10) * 60 + 50
       otrosp =canvas.create_rectangle(sala_de_espera_x1 + 10 + x_offset, sala_de_espera_y1 + 200 + y_offset, sala_de_espera_x1 + 50 + x_offset, sala_de_espera_y1 + 240 + y_offset, fill=colores[paciente.color], width=0)
       canvas.create_text(sala_de_espera_x1 + 30 + x_offset, sala_de_espera_y1 + 220 + y_offset, text=f"{paciente.Nombre}", anchor=tk.CENTER)
+
+  canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 20, text="Cola Prioridad Principal", font=("Arial", 14), anchor=tk.CENTER)  
+  canvas.create_text((sala_de_espera_x1 + sala_de_espera_x2) / 2, sala_de_espera_y1 + 220, text="Cola Prioridad Secundaria", font=("Arial", 14), anchor=tk.CENTER)
       
-         
   canvas.create_rectangle(800,50,1150,400)
   canvas.create_text(975,60, text=f"Consultorio 1")
   canvas.create_text(975,200, text=f"La cantidad de pacientes atendidos en este consultorio fue de: {c1}")
@@ -85,10 +88,14 @@ def mostrar_paciente_progresivamente(index, sala_de_espera_x1, sala_de_espera_x2
   canvas.create_text(1325,420, text=f"Consultorio 4")
   canvas.create_text(1325,550, text=f"La cantidad de pacientes atendidos en este consultorio fue de: {c4}")
   canvas.create_text(sala_de_espera_x1, sala_de_espera_y2 + 100,text=f"Cantidad de pacientes fallecidos: {k1}", anchor=tk.W )
+  canvas.create_text(300,730, text=f" La hora actual es : {Hora_Actual.tm_hour} :{Hora_Actual.tm_min}, por lo que la cantidad de medicos es de {contenfer}",font = font_del_Texto2)
         
   root.update()    
   canvas.after(500, mostrar_paciente_progresivamente, index+1)
-  time.sleep(0.0000000000000000000000000000000000000000000000000000000000001)
+  if(contenfer == 1):
+    time.sleep(0.05)
+  else:
+    time.sleep(0.03)
       
 def funcion_antencio_pacientes():
    
@@ -123,6 +130,7 @@ def funcion_antencio_pacientes():
           print("Se le asigna color al paciente ",Hospi.listaPacientes[0].Nombre,Hospi.listaPacientes[0].Apellido)
           Hospi.listaEnfermeros[i].asignarcolor(Hospi.listaPacientes[0])
           asignar_a_Cola(Hospi.listaPacientes[0],Hospi)
+          #Funcion interfaz
           Mostrar_Paciente(Hospi.colaPrincipal, Hospi.colaSecundario,cont1,cont2,cont3,cont4,Muertos,contEnfermeros, canvas)   
             #Pasamos al siguiente enfermero de la lista asi el mismo enfermero no tiene que atender a todos los paciente
             # Es como si tuviera un descnaso entre paciente y paciente  
