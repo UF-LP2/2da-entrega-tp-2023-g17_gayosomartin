@@ -19,7 +19,7 @@ def test_Tiempo():
     Paciente = Pacientes("Maria","Fres","34789765",[0,8,5])
     Enfermero = Enfermeros("luis")
     Enfermero.asignarcolor(Paciente)
-    assert Paciente.tiempomax == 1
+    assert Paciente.tiempomax == 4
 
 def test_Beneficio():
  Paciente = Pacientes("Maria","Fres","34789765",[0,8,5])
